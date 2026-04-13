@@ -335,6 +335,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
     const patientId = localStorage.getItem('vitalis_id');
 
+    // Instantly apply cached values from localStorage (before API fetch)
+    const cachedName = localStorage.getItem('vitalis_name');
+    const cachedPic  = localStorage.getItem('vitalis_pic');
+    if (cachedName) document.getElementById('patient-hero-name').textContent = cachedName;
+    if (cachedPic)  document.getElementById('hero-profile-pic').src = cachedPic;
+
     // Fetch Full Profile Info
     try {
         const uRes = await fetch(`${API_URL}/api/users/${patientId}`, {

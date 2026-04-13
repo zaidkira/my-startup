@@ -289,6 +289,7 @@
                 localStorage.setItem('vitalis_role', userData.role);
                 localStorage.setItem('vitalis_id', userData.id);
                 localStorage.setItem('vitalis_name', userData.name);
+                if (userData.profilePic) localStorage.setItem('vitalis_pic', userData.profilePic);
 
                 // Redirect based on Role
                 if (userData.role === 'pharmacist') {

@@ -28,19 +28,27 @@ exports.syncUser = async (req, res) => {
         const { uid, email } = req.user;
         const { name, role, specialty, profilePic, height, weight, bloodType, allergies } = req.body;
 
-        // 1. Try find by Firebase UID (existing user logging in)
+        // 1. Try find by Firebase UID (returning user)
         let user = await User.findOne({ firebaseUid: uid });
 
         if (!user) {
-            // 2. Maybe the account was partially created — find by email
+            // 2. Maybe partial account exists — find by email
             user = await User.findOne({ email: email });
 
             if (user) {
-                // Link the Firebase UID to the existing email record
+                // Link Firebase UID and update all provided signup fields
                 user.firebaseUid = uid;
+                if (name) user.name = name;
+                if (role) user.role = role;
+                if (specialty) user.specialty = specialty;
+                if (profilePic) user.profilePic = profilePic;
+                if (bloodType) user.bloodType = bloodType;
+                if (allergies && allergies.length) user.allergies = allergies;
+                if (height) user.height = Number(height);
+                if (weight) user.weight = Number(weight);
                 await user.save();
             } else {
-                // 3. Brand new user — create record
+                // 3. Brand new user — create full record
                 const userDataToSave = {
                     firebaseUid: uid,
                     name: name || req.user.name || 'New User',
@@ -59,7 +67,13 @@ exports.syncUser = async (req, res) => {
             }
         }
 
-        res.status(200).json({ id: user._id, name: user.name, role: user.role, message: 'Synced successfully' });
+        res.status(200).json({ 
+            id: user._id, 
+            name: user.name, 
+            role: user.role,
+            profilePic: user.profilePic,
+            message: 'Synced successfully' 
+        });
     } catch (error) {
         res.status(400).json({ message: error.message });
     }
