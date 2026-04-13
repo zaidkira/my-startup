@@ -188,19 +188,22 @@
         <h2 class="text-2xl font-black text-on-surface">Your Statistics</h2>
         
         <div class="bg-surface-container-low p-6 rounded-3xl">
-            <h3 class="font-bold mb-4">Historical Activity (Steps)</h3>
+            <div class="flex justify-between items-end mb-4">
+                <h3 class="font-bold">Historical Activity (Steps)</h3>
+                <span class="text-[10px] uppercase font-bold text-slate-400">Past 7 logs</span>
+            </div>
             <div class="flex items-end justify-between h-40 gap-2 px-2" id="stats-steps-chart">
-                <!-- Dynamically populated chart bars -->
-                <div class="w-full bg-primary/20 rounded-t-full h-[20%]"></div>
-                <div class="w-full bg-primary/20 rounded-t-full h-[30%]"></div>
-                <div class="w-full bg-primary/20 rounded-t-full h-[50%]"></div>
+                <div class="text-xs text-slate-400 text-center w-full my-auto">Loading activity data...</div>
             </div>
         </div>
 
         <div class="bg-surface-container-low p-6 rounded-3xl">
-            <h3 class="font-bold mb-4">Historical Heart Rates (BPM)</h3>
+            <div class="flex justify-between items-end mb-4">
+                <h3 class="font-bold">Historical Heart Rates (BPM)</h3>
+                <span class="text-[10px] uppercase font-bold text-slate-400">Past 7 logs</span>
+            </div>
             <div class="flex items-end justify-between h-40 gap-2 px-2" id="stats-hr-chart">
-                 <!-- Dynamically populated chart bars -->
+                 <div class="text-xs text-slate-400 text-center w-full my-auto">Loading heart rate data...</div>
             </div>
         </div>
     </div>
@@ -265,9 +268,9 @@
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">File Link (URL)</label>
-                        <input type="url" id="record-url" required class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20" placeholder="https://drive.google.com/...">
-                        <p class="text-[10px] text-slate-400 mt-1 pl-1">Provide a valid URL to your document</p>
+                        <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-1">Select File</label>
+                        <input type="file" id="record-file" required class="w-full bg-white border border-outline-variant/30 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-primary/20 text-sm" accept=".pdf, .jpg, .jpeg, .png">
+                        <p class="text-[10px] text-slate-400 mt-1 pl-1">Supports PDF, JPG, PNG (Max 5MB)</p>
                     </div>
                     <button type="submit" class="w-full bg-tertiary text-white font-bold py-3 rounded-xl hover:bg-tertiary-container hover:text-white transition-colors">Save File</button>
                     <p id="record-msg" class="text-center text-sm font-bold text-secondary hidden"></p>
@@ -364,13 +367,51 @@ document.addEventListener('DOMContentLoaded', async () => {
                 document.getElementById('patient-vital-steps').textContent = latest.steps || '--';
                 document.getElementById('patient-vital-hr').textContent = latest.heartRateAvg || '--';
                 document.getElementById('patient-vital-sleep').textContent = latest.sleepHours || '--';
-                // Estimate kcal burned based on steps for visual completeness (roughly 0.04 kcal per step)
                 const kcal = latest.steps ? Math.round(latest.steps * 0.04) : '--';
                 document.getElementById('patient-vital-kcal').textContent = kcal;
+                
+                // Render Stats Charts
+                renderStats(vitalsList.slice(0, 7).reverse());
+            } else {
+                document.getElementById('stats-steps-chart').innerHTML = '<div class="text-xs text-slate-400 text-center w-full my-auto">No logged data</div>';
+                document.getElementById('stats-hr-chart').innerHTML = '<div class="text-xs text-slate-400 text-center w-full my-auto">No logged data</div>';
             }
         }
     } catch(err) { console.error('Vitals load fail:', err); }
 });
+
+function renderStats(vitals) {
+    const stepsChart = document.getElementById('stats-steps-chart');
+    const hrChart = document.getElementById('stats-hr-chart');
+    stepsChart.innerHTML = '';
+    hrChart.innerHTML = '';
+    
+    // Find Max for scaling percentages
+    const maxSteps = Math.max(...vitals.map(v => v.steps || 0), 10000); 
+    const maxHR = Math.max(...vitals.map(v => v.heartRateAvg || 0), 150);
+
+    vitals.forEach(v => {
+        const dateStr = new Date(v.date).toLocaleDateString('en-US', { weekday: 'short' });
+        
+        // Steps Chart Element
+        const stepPct = Math.min(((v.steps || 0) / maxSteps) * 100, 100);
+        stepsChart.innerHTML += `
+            <div class="w-full bg-primary/20 rounded-t-full relative group transition-all" style="height: ${Math.max(stepPct, 5)}%">
+                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface shadow-md py-1 px-2 rounded-lg text-[10px] font-bold text-primary opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">${v.steps||0}</div>
+                <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] font-bold text-slate-400 uppercase">${dateStr}</div>
+            </div>
+        `;
+        
+        // HR Chart Element
+        const hrPct = Math.min(((v.heartRateAvg || 0) / maxHR) * 100, 100);
+        hrChart.innerHTML += `
+            <div class="w-full bg-error/20 rounded-t-full relative group transition-all" style="height: ${Math.max(hrPct, 5)}%">
+                <div class="absolute -top-8 left-1/2 -translate-x-1/2 bg-surface shadow-md py-1 px-2 rounded-lg text-[10px] font-bold text-error opacity-0 group-hover:opacity-100 transition-opacity z-10 pointer-events-none">${v.heartRateAvg||0}</div>
+                 <div class="absolute -bottom-6 left-1/2 -translate-x-1/2 text-[9px] font-bold text-slate-400 uppercase">${dateStr}</div>
+            </div>
+        `;
+    });
+}
 
 async function logMedication(id, taken) {
     if (!taken) return;
@@ -402,7 +443,7 @@ async function loadRecords() {
             }
             records.forEach(r => {
                 list.innerHTML += `
-                    <a href="${r.fileUrl}" target="_blank" class="flex gap-3 items-center p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-outline-variant/30 transition-all cursor-pointer">
+                    <a href="${r.fileUrl}" download="${r.title.replace(/[^a-z0-9]/gi, '_').toLowerCase()}_vitalis" class="flex gap-3 items-center p-3 rounded-xl hover:bg-slate-50 border border-transparent hover:border-outline-variant/30 transition-all cursor-pointer">
                         <div class="w-10 h-10 rounded-lg bg-tertiary/10 text-tertiary flex items-center justify-center">
                             <span class="material-symbols-outlined">description</span>
                         </div>
@@ -476,28 +517,57 @@ document.getElementById('record-form').addEventListener('submit', async (e) => {
     const patientId = localStorage.getItem('vitalis_id');
     const msg = document.getElementById('record-msg');
     
-    const body = {
-        patient: patientId,
-        title: document.getElementById('record-title').value,
-        category: document.getElementById('record-category').value,
-        fileUrl: document.getElementById('record-url').value,
-        fileType: 'Other'
-    };
+    // Read the file object
+    const fileInput = document.getElementById('record-file');
+    if (!fileInput.files || fileInput.files.length === 0) return;
+    const file = fileInput.files[0];
+    
+    msg.textContent = 'Processing file...';
+    msg.classList.remove('hidden');
+    msg.classList.replace('text-secondary', 'text-slate-500');
 
-    try {
-        const res = await fetch(`${API_URL}/api/records`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-            body: JSON.stringify(body)
-        });
-        if (res.ok) {
-            msg.textContent = 'File Uploaded Successfully';
-            msg.classList.remove('hidden');
-            document.getElementById('record-form').reset();
-            loadRecords(); // Refresh list
-            setTimeout(() => msg.classList.add('hidden'), 3000);
+    // Convert file to Base64
+    const reader = new FileReader();
+    reader.onload = async function() {
+        const base64Data = reader.result; // This is the data URL (e.g. data:image/png;base64,...)
+        
+        const body = {
+            patient: patientId,
+            title: document.getElementById('record-title').value,
+            category: document.getElementById('record-category').value,
+            fileUrl: base64Data, // Save base64 string to DB directly
+            fileType: 'Other',
+            fileSizeStr: (file.size / 1024 / 1024).toFixed(2) + ' MB'
+        };
+
+        try {
+            const res = await fetch(`${API_URL}/api/records`, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                body: JSON.stringify(body)
+            });
+            if (res.ok) {
+                msg.classList.replace('text-slate-500', 'text-secondary');
+                msg.textContent = 'File Uploaded Successfully!';
+                document.getElementById('record-form').reset();
+                loadRecords(); // Refresh list
+                setTimeout(() => msg.classList.add('hidden'), 3000);
+            } else {
+                throw new Error('Upload failed possibly due to file size (Max 5MB).');
+            }
+        } catch(err) { 
+            console.error(err);
+            msg.classList.replace('text-slate-500', 'text-error');
+            msg.textContent = err.message;
         }
-    } catch(err) { console.error(err); }
+    };
+    
+    reader.onerror = function() {
+        msg.classList.replace('text-slate-500', 'text-error');
+        msg.textContent = 'Failed to read file on device.';
+    };
+    
+    reader.readAsDataURL(file);
 });
 
 function logout() {
