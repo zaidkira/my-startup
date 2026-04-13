@@ -25,30 +25,38 @@ exports.getUserById = async (req, res) => {
 // Sync User from Firebase into MongoDB
 exports.syncUser = async (req, res) => {
     try {
-        // req.user is provided by the auth middleware (decoded Firebase token)
         const { uid, email } = req.user;
         const { name, role, specialty, profilePic, height, weight, bloodType, allergies } = req.body;
-        
-        // Check if user already exists
-        let user = await User.findOne({ firebaseUid: uid });
-        
-        if (!user) {
-            // Register new user locally referencing Firebase UID
-            const userDataToSave = {
-                firebaseUid: uid,
-                name: name || req.user.name || 'New User',
-                email: email,
-                role: role || 'patient',
-                specialty: specialty,
-                profilePic: profilePic,
-                bloodType: bloodType,
-                allergies: allergies
-            };
-            if (height) userDataToSave.height = Number(height);
-            if (weight) userDataToSave.weight = Number(weight);
 
-            user = new User(userDataToSave);
-            await user.save();
+        // 1. Try find by Firebase UID (existing user logging in)
+        let user = await User.findOne({ firebaseUid: uid });
+
+        if (!user) {
+            // 2. Maybe the account was partially created — find by email
+            user = await User.findOne({ email: email });
+
+            if (user) {
+                // Link the Firebase UID to the existing email record
+                user.firebaseUid = uid;
+                await user.save();
+            } else {
+                // 3. Brand new user — create record
+                const userDataToSave = {
+                    firebaseUid: uid,
+                    name: name || req.user.name || 'New User',
+                    email: email,
+                    role: role || 'patient',
+                    specialty: specialty,
+                    profilePic: profilePic,
+                    bloodType: bloodType,
+                    allergies: allergies
+                };
+                if (height) userDataToSave.height = Number(height);
+                if (weight) userDataToSave.weight = Number(weight);
+
+                user = new User(userDataToSave);
+                await user.save();
+            }
         }
 
         res.status(200).json({ id: user._id, name: user.name, role: user.role, message: 'Synced successfully' });
