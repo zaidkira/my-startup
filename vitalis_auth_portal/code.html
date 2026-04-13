@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vitalis - تسجيل الدخول</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9ff; }
+        .glass-panel { background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(24px); box-shadow: 0 10px 30px rgba(24, 27, 35, 0.04), 0 4px 8px rgba(0, 88, 195, 0.06); }
+        .input-glow:focus { box-shadow: inset 0 2px 4px rgba(0, 88, 195, 0.05), 0 0 0 4px rgba(0, 88, 195, 0.1); border-color: #0058c3; outline: none; }
+        .btn-primary { background: #0058c3; box-shadow: inset 0 2px 0 rgba(255,255,255,0.15); transition: all 0.3s ease; }
+        .btn-primary:hover { background: #004ba6; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(0, 88, 195, 0.2); }
+        
+        /* Loading Spinner */
+        .spinner { border: 3px solid rgba(255,255,255,0.3); border-radius: 50%; border-top: 3px solid white; width: 24px; height: 24px; animation: spin 1s linear infinite; display: none; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center relative py-10 text-slate-800">
+
+    <!-- Decorative Soft Blobs -->
+    <div class="fixed top-[-10%] left-[-10%] w-[50vw] h-[50vw] bg-[#0058c3]/[0.05] rounded-full blur-[100px] pointer-events-none"></div>
+    <div class="fixed bottom-[-20%] right-[-10%] w-[60vw] h-[60vw] bg-[#006c49]/[0.05] rounded-full blur-[120px] pointer-events-none"></div>
+
+    <main class="w-full max-w-md px-6 py-12 relative z-10">
+        
+        <!-- Header -->
+        <div class="text-center mb-10">
+            <div class="w-16 h-16 bg-white rounded-2xl shadow-sm mx-auto mb-6 flex items-center justify-center text-[#0058c3]">
+                <span class="material-symbols-outlined text-4xl">ecg_heart</span>
+            </div>
+            <h1 class="text-4xl font-black tracking-tight text-[#0058c3] mb-2">فيطاليس</h1>
+            <p class="text-slate-500 font-medium tracking-wide text-sm">بوابتك الذكية للرعاية الصحية</p>
+        </div>
+
+        <!-- Auth Panel -->
+        <div class="glass-panel p-8 rounded-[2rem]">
+            
+            <div id="error-alert" class="hidden mb-6 p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex items-center gap-2">
+                <span class="material-symbols-outlined">error</span>
+                <span id="error-message">حدث خطأ ما</span>
+            </div>
+
+            <!-- Tabs -->
+            <div class="flex bg-[#f2f3fe] rounded-2xl p-1 mb-8 relative">
+                <button id="tab-login" class="flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all" onclick="switchTab('login')">دخول</button>
+                <button id="tab-signup" class="flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all" onclick="switchTab('signup')">حساب جديد</button>
+            </div>
+
+            <form id="auth-form" onsubmit="handleAuth(event)">
+                
+                <!-- Role Selector (Only for Signup) -->
+                <div id="role-group" class="hidden mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">نوع الحساب</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <!-- Patient -->
+                        <label class="cursor-pointer">
+                            <input type="radio" name="role" value="patient" class="peer sr-only" checked>
+                            <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
+                                <span class="material-symbols-outlined block mb-1">person</span>
+                                <span class="text-xs font-bold">مريض</span>
+                            </div>
+                        </label>
+                        <!-- Doctor -->
+                        <label class="cursor-pointer">
+                            <input type="radio" name="role" value="doctor" class="peer sr-only">
+                            <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
+                                <span class="material-symbols-outlined block mb-1">stethoscope</span>
+                                <span class="text-xs font-bold">طبيب</span>
+                            </div>
+                        </label>
+                        <!-- Pharmacist -->
+                        <label class="cursor-pointer">
+                            <input type="radio" name="role" value="pharmacist" class="peer sr-only">
+                            <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
+                                <span class="material-symbols-outlined block mb-1">medication</span>
+                                <span class="text-xs font-bold">صيدلي</span>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div id="name-group" class="hidden mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">الاسم الكامل</label>
+                    <input type="text" id="name" class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="د. سميث ...">
+                </div>
+
+                <div class="mb-5">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">البريد الإلكتروني</label>
+                    <input type="email" id="email" required class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="name@vitalis.local">
+                </div>
+
+                <div class="mb-8">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">كلمة المرور</label>
+                    <input type="password" id="password" required class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="••••••••">
+                </div>
+
+                <button type="submit" class="btn-primary w-full text-white font-bold py-4 rounded-2xl text-sm flex items-center justify-center gap-2">
+                    <span id="btn-text">متابعة</span>
+                    <span class="material-symbols-outlined" id="btn-icon">arrow_forward</span>
+                    <div class="spinner" id="spinner"></div>
+                </button>
+            </form>
+        </div>
+
+        <p class="text-center text-xs text-slate-400 mt-8">نظام فيطاليس يعتمد على معايير حماية طبية معتمدة</p>
+    </main>
+
+    <!-- FIREBASE SDK COMPAT (v8 style) -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-auth-compat.js"></script>
+
+    <script>
+        // 🔥 User's actual Firebase Web Configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyBngBnH9qAT3CQ9ean3fjWwIsFmJWb7BD8",
+          authDomain: "your-health-first.firebaseapp.com",
+          projectId: "your-health-first",
+          storageBucket: "your-health-first.firebasestorage.app",
+          messagingSenderId: "431234813309",
+          appId: "1:431234813309:web:a6e80fe04ca30904005014",
+          measurementId: "G-1RMY376H3H"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // API Configuration
+        const API_URL = window.location.hostname === 'localhost' 
+            ? 'http://localhost:5000' 
+            : 'https://vitalisbackend-452u547f2-ammizaidghost-3245s-projects.vercel.app';
+
+        let currentMode = 'login'; // 'login' or 'signup'
+
+        function switchTab(mode) {
+            currentMode = mode;
+            document.getElementById('error-alert').classList.add('hidden');
+            
+            const btnLogin = document.getElementById('tab-login');
+            const btnSignup = document.getElementById('tab-signup');
+            const roleGroup = document.getElementById('role-group');
+            const nameGroup = document.getElementById('name-group');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+
+            if (mode === 'login') {
+                btnLogin.className = "flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all";
+                btnSignup.className = "flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all";
+                roleGroup.classList.add('hidden');
+                nameGroup.classList.add('hidden');
+                btnText.textContent = "دخول";
+                btnIcon.textContent = "login";
+            } else {
+                btnSignup.className = "flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all";
+                btnLogin.className = "flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all";
+                roleGroup.classList.remove('hidden');
+                nameGroup.classList.remove('hidden');
+                btnText.textContent = "إنشاء الحساب";
+                btnIcon.textContent = "person_add";
+            }
+        }
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorAlert = document.getElementById('error-alert');
+            const errorMessage = document.getElementById('error-message');
+            const btnText = document.getElementById('btn-text');
+            const btnIcon = document.getElementById('btn-icon');
+            const spinner = document.getElementById('spinner');
+
+            // UI Loading State
+            errorAlert.classList.add('hidden');
+            btnText.classList.add('hidden');
+            btnIcon.classList.add('hidden');
+            spinner.style.display = 'block';
+
+            try {
+                let userCredential;
+                if (currentMode === 'login') {
+                    userCredential = await auth.signInWithEmailAndPassword(email, password);
+                } else {
+                    userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                }
+
+                const fbToken = await userCredential.user.getIdToken();
+                
+                // Prepare Data for our MongoDB Backend
+                const bodyData = {};
+                if (currentMode === 'signup') {
+                    bodyData.name = document.getElementById('name').value;
+                    bodyData.role = document.querySelector('input[name="role"]:checked').value;
+                }
+
+                // Sync with our custom Vitalis Node.js Backend
+                const res = await fetch(`${API_URL}/api/users/sync`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${fbToken}`
+                    },
+                    body: JSON.stringify(bodyData)
+                });
+
+                if (!res.ok) throw new Error('فشل المزامنة مع خادم فيطاليس الداخلي');
+                const userData = await res.json();
+                
+                // Store minimal info locally for dashboard
+                localStorage.setItem('vitalis_token', fbToken);
+                localStorage.setItem('vitalis_role', userData.role);
+                localStorage.setItem('vitalis_id', userData.id);
+                localStorage.setItem('vitalis_name', userData.name);
+
+                // Redirect based on Role
+                if (userData.role === 'pharmacist') {
+                    window.location.href = '../pharmacist_stock_management/code.html';
+                } else if (userData.role === 'doctor') {
+                    window.location.href = '../doctor_s_insight_portal/code.html';
+                } else {
+                    window.location.href = '../patient_wellness_dashboard/code.html';
+                }
+
+            } catch (error) {
+                console.error(error);
+                errorMessage.textContent = getArabicError(error.code) || "يوجد خطأ في كلمة المرور أو السيرفر مغلق.";
+                errorAlert.classList.remove('hidden');
+                
+                // Reset UI
+                btnText.classList.remove('hidden');
+                btnIcon.classList.remove('hidden');
+                spinner.style.display = 'none';
+            }
+        }
+
+        // Helper to translate Firebase codes to Arabic
+        function getArabicError(code) {
+            switch(code) {
+                case 'auth/invalid-credential': return "البريد الإلكتروني أو كلمة المرور غير صحيحة";
+                case 'auth/email-already-in-use': return "هذا البريد مستخدم سابقاً";
+                case 'auth/weak-password': return "كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)";
+                case 'auth/network-request-failed': return "لا يوجد اتصال بالإنترنت";
+                default: return null;
+            }
+        }
+    </script>
+</body>
+</html>

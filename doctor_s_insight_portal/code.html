@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+
+<html dir="rtl" lang="ar"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "inverse-on-surface": "#eff0fb",
+                        "inverse-surface": "#2d3039",
+                        "outline-variant": "#c1c6d7",
+                        "on-secondary-fixed": "#002113",
+                        "background": "#faf9ff",
+                        "tertiary-fixed": "#e2dfff",
+                        "on-tertiary-container": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9ff",
+                        "on-background": "#181b23",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#6cf8bb",
+                        "tertiary": "#4c42e2",
+                        "secondary-fixed-dim": "#4edea3",
+                        "primary-fixed-dim": "#aec6ff",
+                        "on-error": "#ffffff",
+                        "surface-container-highest": "#e0e2ed",
+                        "tertiary-fixed-dim": "#c3c0ff",
+                        "secondary-fixed": "#6ffbbe",
+                        "surface-container-low": "#f2f3fe",
+                        "tertiary-container": "#665ffc",
+                        "surface-container-high": "#e6e7f3",
+                        "primary-container": "#0070f3",
+                        "surface-container": "#ecedf8",
+                        "primary": "#0058c3",
+                        "on-tertiary-fixed-variant": "#3323cc",
+                        "surface-tint": "#0059c5",
+                        "surface-dim": "#d8d9e4",
+                        "error-container": "#ffdad6",
+                        "on-secondary-fixed-variant": "#005236",
+                        "secondary": "#006c49",
+                        "on-primary": "#ffffff",
+                        "on-surface": "#181b23",
+                        "on-surface-variant": "#414754",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d8e2ff",
+                        "on-tertiary": "#ffffff",
+                        "on-primary-fixed": "#001a43",
+                        "inverse-primary": "#aec6ff",
+                        "on-primary-fixed-variant": "#004397",
+                        "on-primary-container": "#ffffff",
+                        "on-secondary-container": "#00714d",
+                        "outline": "#727786",
+                        "surface-bright": "#faf9ff",
+                        "on-tertiary-fixed": "#0f0069",
+                        "surface-variant": "#e0e2ed"
+                    },
+                    fontFamily: {
+                        "headline": ["Inter"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #faf9ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-nav { backdrop-filter: blur(20px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-background selection:bg-primary-fixed selection:text-on-primary-fixed">
+<script>
+    if (!localStorage.getItem('vitalis_token') || localStorage.getItem('vitalis_role') !== 'doctor') {
+        window.location.href = '../vitalis_auth_portal/code.html';
+    }
+</script>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(24,27,35,0.04),0_4px_8px_rgba(0,88,195,0.06)] flex justify-between items-center px-6 py-4 rtl:flex-row-reverse">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-white overflow-hidden shadow-sm">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a confident male doctor in medical attire with a warm smile and blurred clinical background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0I5VHlQq0gpT8_iJ-31lWpPDv1OWJgOt3LobSp4guB2q0TzXQElk-NokiGc5M4i5P7PNnytiYR1P1B68k7fHmxwgo2FQfKYWrwLLPrm-n7KLyJtJ-ZjXS2bX8xN_4KfaDIVwkPUjsTPaQnMrn-Q3OJyZiMOCuFs0q4Ix_pzJ9iOyOw4Ljz0ozqa7Pk_V459BPXUkSKoCu1EcMeapWhYtGJK06ZwWmQnz84AJsqr6W622X-pd3CzF3LHJC0FB5ja6tft6HNKrk2yc"/>
+</div>
+<div>
+<h1 class="font-['Inter'] font-semibold text-lg tracking-tight text-on-surface">Your Health First</h1>
+<p class="text-[10px] text-primary font-bold italic opacity-80">صحتك أولاً</p>
+</div>
+</div>
+<button class="w-10 h-10 flex items-center justify-center rounded-xl hover:bg-slate-50 transition-colors active:scale-95 duration-200 ease-in-out">
+<span class="material-symbols-outlined text-slate-500" data-icon="notifications">notifications</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-4 md:px-8 max-w-7xl mx-auto space-y-8">
+<!-- Welcome Hero Section -->
+<section class="relative overflow-hidden rounded-3xl p-8 min-h-[180px] flex flex-col justify-end bg-gradient-to-br from-primary to-primary-container shadow-xl">
+<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+<div class="relative z-10">
+<h2 class="text-white text-3xl font-black mb-1">أهلاً <span id="doctor-hero-name">دكتور</span></h2>
+<p class="text-primary-fixed text-sm font-medium opacity-90 uppercase tracking-widest" id="doctor-role-display">Medical Director • Active Now</p>
+</div>
+</section>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+<!-- Vitals Viewer (7-Day Charts) - Left Column -->
+<div class="lg:col-span-8 space-y-6">
+<div class="bg-surface-container-low rounded-3xl p-6">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-title-lg font-bold text-on-surface">تحليلات البيانات الحيوية</h3>
+<div class="flex gap-2">
+<span class="px-3 py-1 bg-white rounded-full text-[10px] font-bold text-slate-400 shadow-sm uppercase">7 Days</span>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Steps Chart -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="directions_walk">directions_walk</span>
+<span class="text-xs font-bold text-secondary">الخطوات</span>
+</div>
+<div class="h-24 flex items-end justify-between gap-1 px-1">
+<div class="w-full bg-secondary/10 rounded-t-full h-[40%]"></div>
+<div class="w-full bg-secondary/10 rounded-t-full h-[60%]"></div>
+<div class="w-full bg-secondary/10 rounded-t-full h-[45%]"></div>
+<div class="w-full bg-secondary/10 rounded-t-full h-[85%]"></div>
+<div class="w-full bg-secondary rounded-t-full h-[95%]"></div>
+<div class="w-full bg-secondary/10 rounded-t-full h-[70%]"></div>
+<div class="w-full bg-secondary/10 rounded-t-full h-[55%]"></div>
+</div>
+<div class="mt-4">
+<span class="text-display-lg text-2xl font-black text-on-surface">8.4k</span>
+<span class="text-[10px] text-slate-400 font-bold block">Avg / Day</span>
+</div>
+</div>
+<!-- Heart Rate Chart -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-primary" data-icon="favorite">favorite</span>
+<span class="text-xs font-bold text-primary">نبض القلب</span>
+</div>
+<div class="h-24 flex items-center justify-center">
+<svg class="w-full h-full" viewbox="0 0 100 40">
+<path d="M0,20 L10,20 L15,5 L25,35 L35,15 L45,25 L55,10 L65,30 L75,18 L85,20 L100,20" fill="none" stroke="#0058c3" stroke-linejoin="round" stroke-width="2.5"></path>
+</svg>
+</div>
+<div class="mt-4">
+<span class="text-display-lg text-2xl font-black text-on-surface">72</span>
+<span class="text-[10px] text-slate-400 font-bold block uppercase tracking-tighter">BPM Avg</span>
+</div>
+</div>
+<!-- Sleep Chart -->
+<div class="bg-surface-container-lowest p-5 rounded-2xl">
+<div class="flex items-center justify-between mb-4">
+<span class="material-symbols-outlined text-tertiary" data-icon="bedtime">bedtime</span>
+<span class="text-xs font-bold text-tertiary">النوم</span>
+</div>
+<div class="h-24 flex items-end justify-between gap-2 px-2">
+<div class="w-2 h-[70%] bg-tertiary-container/30 rounded-full"></div>
+<div class="w-2 h-[80%] bg-tertiary-container/30 rounded-full"></div>
+<div class="w-2 h-[65%] bg-tertiary-container/30 rounded-full"></div>
+<div class="w-2 h-[90%] bg-tertiary-container rounded-full"></div>
+<div class="w-2 h-[75%] bg-tertiary-container/30 rounded-full"></div>
+</div>
+<div class="mt-4">
+<span class="text-display-lg text-2xl font-black text-on-surface">7.2</span>
+<span class="text-[10px] text-slate-400 font-bold block uppercase">Hours Avg</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Prescription Generator -->
+<div class="bg-surface-container-low rounded-3xl p-8">
+<div class="flex items-center gap-4 mb-8">
+<div class="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<div>
+<h3 class="text-xl font-bold text-on-surface">مولد الوصفات الطبية</h3>
+<p class="text-xs text-on-surface-variant">إنشاء وصفة طبية جديدة فورية</p>
+</div>
+</div>
+<form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="space-y-2">
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mr-1">اسم الدواء</label>
+<input class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary transition-all text-sm" placeholder="مثلاً: أموكسيسيلين" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mr-1">الجرعة</label>
+<input class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary transition-all text-sm" placeholder="مثلاً: 500 ملغ" type="text"/>
+</div>
+<div class="md:col-span-2 space-y-2">
+<label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest mr-1">التعليمات</label>
+<textarea class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 focus:ring-2 focus:ring-primary transition-all text-sm" placeholder="أدخل تعليمات الاستخدام هنا..." rows="3"></textarea>
+</div>
+<div class="md:col-span-2 flex justify-end">
+<button class="bg-primary text-white font-bold py-4 px-10 rounded-2xl shadow-lg shadow-primary/20 hover:translate-y-[-2px] active:scale-95 transition-all" type="submit">
+                                حفظ وإصدار الوصفة
+                            </button>
+</div>
+</form>
+</div>
+</div>
+<!-- Patient List - Right Column -->
+<div class="lg:col-span-4 space-y-6">
+<div class="bg-surface-container-low rounded-3xl p-6 h-full flex flex-col">
+<div class="flex justify-between items-center mb-6">
+<h3 class="text-title-lg font-bold text-on-surface">قائمة المرضى</h3>
+<button class="text-primary text-sm font-bold hover:underline transition-all">الكل</button>
+</div>
+<div class="space-y-4 flex-1 overflow-y-auto no-scrollbar" id="patient-list-container">
+    <div class="text-center p-8 text-slate-500 animate-pulse">Loading Patients...</div>
+</div>
+<button class="mt-8 w-full py-4 border-2 border-dashed border-outline-variant/30 rounded-2xl text-[11px] font-bold text-slate-400 uppercase tracking-widest hover:border-primary/50 hover:text-primary transition-all">
+                        + إضافة مريض جديد
+                    </button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center pb-6 pt-3 px-4 rtl:flex-row-reverse bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl z-50 rounded-t-3xl shadow-[0_-10px_30px_rgba(24,27,35,0.04)]">
+<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl px-5 py-2 scale-110 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Home</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="monitoring">monitoring</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Insights</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="folder_shared">folder_shared</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Vault</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Profile</span>
+</a>
+</nav>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    const doctorName = localStorage.getItem('vitalis_name') || 'دكتور';
+    const heroName = document.getElementById('doctor-hero-name');
+    if (heroName) heroName.textContent = doctorName;
+
+    const token = localStorage.getItem('vitalis_token');
+    const API_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:5000' 
+        : 'https://vitalisbackend-452u547f2-ammizaidghost-3245s-projects.vercel.app';
+
+    // Fetch Patients
+    try {
+        const res = await fetch(`${API_URL}/api/users?role=patient`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+            const patients = await res.json();
+            const container = document.getElementById('patient-list-container');
+            if (container) {
+                container.innerHTML = '';
+                patients.forEach(p => {
+                    container.innerHTML += `
+                        <div class="group bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-4 hover:translate-x-[-4px] transition-transform cursor-pointer" onclick="selectPatient('${p._id}', '${p.name}')">
+                            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-primary">
+                                <span class="material-symbols-outlined">person</span>
+                            </div>
+                            <div class="flex-1">
+                                <h4 class="font-bold text-on-surface text-sm">${p.name}</h4>
+                                <p class="text-[11px] text-slate-400">ID: ${p._id.slice(-6)}</p>
+                            </div>
+                            <span class="material-symbols-outlined text-slate-300 group-hover:text-primary transition-colors">chevron_left</span>
+                        </div>
+                    `;
+                });
+            }
+        }
+    } catch (err) { console.error('Patient load fail:', err); }
+});
+
+function selectPatient(id, name) {
+    alert('Selected Patient: ' + name);
+}
+</script>
+</body></html>
