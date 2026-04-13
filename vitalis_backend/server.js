@@ -34,6 +34,11 @@ app.use('/api/medications', require('./routes/medicationRoutes'));
 
 const PORT = process.env.PORT || 5000;
 
+// Handle 404 Pages
+app.use('*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
+});
+
 app.listen(PORT, () => {
     console.log(`✅ Vitalis API running on port ${PORT}`);
 });

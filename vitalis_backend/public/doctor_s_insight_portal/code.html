@@ -135,7 +135,7 @@
                             <div class="w-full bg-secondary/10 rounded-t-full h-[70%]"></div>
                         </div>
                         <div class="mt-4">
-                            <span class="text-2xl font-black text-on-surface">8.4k</span>
+                            <span id="vital-steps" class="text-2xl font-black text-on-surface">--</span>
                             <span class="text-[10px] text-slate-400 font-bold block uppercase">Avg / Day</span>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                             </svg>
                         </div>
                         <div class="mt-4">
-                            <span class="text-2xl font-black text-on-surface">72</span>
+                            <span id="vital-heartrate" class="text-2xl font-black text-on-surface">--</span>
                             <span class="text-[10px] text-slate-400 font-bold block uppercase">BPM Avg</span>
                         </div>
                     </div>
@@ -167,7 +167,7 @@
                             <div class="w-2 h-[75%] bg-tertiary-container/30 rounded-full"></div>
                         </div>
                         <div class="mt-4">
-                            <span class="text-2xl font-black text-on-surface">7.2</span>
+                            <span id="vital-sleep" class="text-2xl font-black text-on-surface">--</span>
                             <span class="text-[10px] text-slate-400 font-bold block uppercase">Hours Avg</span>
                         </div>
                     </div>
@@ -184,18 +184,21 @@
                         <p class="text-xs text-on-surface-variant">Generate instant digital prescriptions</p>
                     </div>
                 </div>
-                <form class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <form class="grid grid-cols-1 md:grid-cols-2 gap-6" id="prescription-form">
+                    <div class="md:col-span-2 hidden" id="selected-patient-warning">
+                        <p class="text-error text-sm font-bold">Please select a patient from the list first.</p>
+                    </div>
                     <div class="space-y-2">
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest">Medication Name</label>
-                        <input class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="e.g. Amoxicillin" type="text"/>
+                        <input id="presc-name" name="medicineName" class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="e.g. Amoxicillin" type="text" required/>
                     </div>
                     <div class="space-y-2">
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest">Dosage</label>
-                        <input class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="e.g. 500mg" type="text"/>
+                        <input id="presc-dosage" name="dosage" class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="e.g. 500mg" type="text" required/>
                     </div>
                     <div class="md:col-span-2 space-y-2">
                         <label class="block text-[11px] font-bold text-slate-500 uppercase tracking-widest">Instructions</label>
-                        <textarea class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="Enter usage instructions..." rows="3"></textarea>
+                        <textarea id="presc-instructions" name="instructions" class="w-full bg-white border-none ring-1 ring-outline-variant/15 rounded-xl px-4 py-3 text-sm" placeholder="Enter usage instructions..." rows="3" required></textarea>
                     </div>
                     <div class="md:col-span-2 flex justify-end">
                         <button class="bg-primary text-white font-bold py-4 px-10 rounded-2xl shadow-lg shadow-primary/20 hover:translate-y-[-2px] transition-all" type="submit">
@@ -216,9 +219,6 @@
                 <div class="space-y-4 flex-1 overflow-y-auto no-scrollbar" id="patient-list-container">
                     <div class="text-center p-8 text-slate-500 animate-pulse text-sm font-bold uppercase tracking-widest">Retrieving records...</div>
                 </div>
-                <button class="mt-8 w-full py-4 border-2 border-dashed border-outline-variant/30 rounded-2xl text-[11px] font-bold text-slate-400 uppercase tracking-widest hover:border-primary/50 hover:text-primary transition-all">
-                    + Register New Patient
-                </button>
             </div>
         </aside>
     </div>
@@ -234,13 +234,15 @@
         <span class="material-symbols-outlined">monitoring</span>
         <span class="text-[11px] uppercase mt-1">Analytics</span>
     </a>
-    <a class="flex flex-col items-center text-slate-400" href="#">
-        <span class="material-symbols-outlined">person</span>
-        <span class="text-[11px] uppercase mt-1">Profile</span>
+    <a onclick="logout()" class="flex flex-col items-center text-slate-400 hover:text-error transition-colors cursor-pointer">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="text-[11px] uppercase mt-1">Logout</span>
     </a>
 </nav>
 
 <script>
+let currentSelectedPatientId = null;
+
 document.addEventListener('DOMContentLoaded', async () => {
     const doctorName = localStorage.getItem('vitalis_name') || 'Doctor';
     const heroName = document.getElementById('doctor-hero-name');
@@ -260,25 +262,109 @@ document.addEventListener('DOMContentLoaded', async () => {
                 container.innerHTML = '';
                 patients.forEach(p => {
                     container.innerHTML += `
-                        <div class="group bg-surface-container-lowest p-4 rounded-2xl flex items-center gap-4 hover:translate-x-[4px] transition-transform cursor-pointer" onclick="selectPatient('${p._id}', '${p.name}')">
-                            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-primary">
+                        <div id="patient-card-${p._id}" class="patient-card group bg-surface-container-lowest border-2 border-transparent p-4 rounded-2xl flex items-center gap-4 hover:translate-x-[4px] transition-transform cursor-pointer" onclick="selectPatient('${p._id}', '${p.name}')">
+                            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center text-primary group-[.active]:bg-primary group-[.active]:text-white">
                                 <span class="material-symbols-outlined">person</span>
                             </div>
                             <div class="flex-1">
                                 <h4 class="font-bold text-on-surface text-sm">${p.name}</h4>
                                 <p class="text-[11px] text-slate-400">ID: ${p._id.slice(-6)}</p>
                             </div>
-                            <span class="material-symbols-outlined text-slate-300 group-hover:text-primary">chevron_right</span>
+                            <span class="material-symbols-outlined text-slate-300 group-hover:text-primary group-[.active]:text-primary">chevron_right</span>
                         </div>
                     `;
                 });
             }
         }
     } catch (err) { console.error('Patient load fail:', err); }
+
+    // Form Submission
+    const prescForm = document.getElementById('prescription-form');
+    prescForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!currentSelectedPatientId) {
+            document.getElementById('selected-patient-warning').classList.remove('hidden');
+            return;
+        }
+
+        const submitBtn = prescForm.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Saving...';
+        submitBtn.disabled = true;
+
+        const medicineName = document.getElementById('presc-name').value;
+        const dosage = document.getElementById('presc-dosage').value;
+        const instructions = document.getElementById('presc-instructions').value;
+
+        try {
+            const res = await fetch(`${API_URL}/api/prescriptions`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify({
+                    patient: currentSelectedPatientId,
+                    doctor: localStorage.getItem('vitalis_id'),
+                    items: [{ medicineName, dosage, instructions }],
+                    notes: 'Issued via Clinical Portal'
+                })
+            });
+
+            if (res.ok) {
+                prescForm.reset();
+                alert('Prescription issued successfully!');
+            } else {
+                alert('Failed to issue prescription.');
+            }
+        } catch (err) {
+            console.error(err);
+            alert('An error occurred.');
+        } finally {
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
+    });
+
 });
 
-function selectPatient(id, name) {
-    alert('Selected Patient: ' + name);
+async function selectPatient(id, name) {
+    currentSelectedPatientId = id;
+    document.getElementById('selected-patient-warning').classList.add('hidden');
+    
+    // Update active UI state
+    document.querySelectorAll('.patient-card').forEach(card => card.classList.remove('active', 'border-primary'));
+    const selectedCard = document.getElementById(`patient-card-${id}`);
+    if (selectedCard) selectedCard.classList.add('active', 'border-primary');
+
+    // Fetch Patient Vitals
+    const token = localStorage.getItem('vitalis_token');
+    const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
+    try {
+        const res = await fetch(`${API_URL}/api/vitals/${id}`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if (res.ok) {
+            const vitalsList = await res.json();
+            if (vitalsList && vitalsList.length > 0) {
+                const latestVital = vitalsList[0];
+                document.getElementById('vital-steps').textContent = latestVital.steps || '--';
+                document.getElementById('vital-heartrate').textContent = latestVital.heartRateAvg || '--';
+                document.getElementById('vital-sleep').textContent = latestVital.sleepHours || '--';
+            } else {
+                document.getElementById('vital-steps').textContent = '--';
+                document.getElementById('vital-heartrate').textContent = '--';
+                document.getElementById('vital-sleep').textContent = '--';
+            }
+        }
+    } catch(err) {
+        console.error('Fetch vitals failed', err);
+    }
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = '/vitalis_auth_portal/code.html';
 }
 </script>
 </body>

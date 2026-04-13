@@ -13,6 +13,10 @@ const userSchema = new mongoose.Schema({
     specialty: { type: String },
     // Patient Specific
     medicalHistory: [{ type: String }],
+    bloodType: { type: String },
+    allergies: [{ type: String }],
+    height: { type: Number }, // in cm
+    weight: { type: Number }, // in kg
     lastVisit: { type: Date },
     // Pharmacist Specific
     gardeMode: { type: Boolean, default: false } // Night shift emergency status

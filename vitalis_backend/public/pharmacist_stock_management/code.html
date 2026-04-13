@@ -122,9 +122,9 @@
                 <span class="material-symbols-outlined">inventory_2</span>
                 <span>Stock Flow</span>
             </div>
-            <div class="flex items-center gap-3 text-slate-600 hover:bg-slate-200 rounded-xl p-4 cursor-pointer">
-                <span class="material-symbols-outlined">group</span>
-                <span>User Logs</span>
+            <div onclick="logout()" class="flex items-center gap-3 text-slate-600 hover:bg-error/10 hover:text-error rounded-xl p-4 cursor-pointer transition-colors">
+                <span class="material-symbols-outlined">logout</span>
+                <span>Logout</span>
             </div>
         </nav>
         <div class="mt-auto p-4 bg-white/50 rounded-2xl">
@@ -168,7 +168,7 @@
             <div class="bg-surface-container-low p-8 rounded-[2rem] flex flex-col justify-between border border-slate-100">
                 <span class="material-symbols-outlined text-tertiary text-4xl">monitoring</span>
                 <div>
-                    <p class="text-4xl font-black text-on-surface mt-4 tracking-tighter">124</p>
+                    <p id="pending-prescriptions-count" class="text-4xl font-black text-on-surface mt-4 tracking-tighter">--</p>
                     <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Awaiting Verification</p>
                 </div>
                 <div class="mt-4 h-1.5 bg-slate-200 rounded-full overflow-hidden">
@@ -216,15 +216,12 @@
         <span class="material-symbols-outlined">inventory_2</span>
         <span class="text-[10px] uppercase mt-1">Stock</span>
     </a>
-    <a class="flex flex-col items-center text-slate-400" href="#">
-        <span class="material-symbols-outlined">person</span>
-        <span class="text-[10px] uppercase mt-1">Account</span>
+    <a onclick="logout()" class="flex flex-col items-center text-slate-400 hover:text-error cursor-pointer transition-colors">
+        <span class="material-symbols-outlined">logout</span>
+        <span class="text-[10px] uppercase mt-1">Logout</span>
     </a>
 </nav>
 
-<button class="fixed bottom-24 right-6 md:bottom-12 md:right-12 w-16 h-16 bg-primary text-white rounded-2xl shadow-xl flex items-center justify-center hover:scale-105 transition-all z-40">
-    <span class="material-symbols-outlined text-3xl">add</span>
-</button>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
@@ -270,6 +267,20 @@ document.addEventListener('DOMContentLoaded', async () => {
                     </div>`;
             });
         }
+
+        // Fetch Prescriptions
+        const pResponse = await fetch(`${API_URL}/api/prescriptions`, {
+            headers: { 'Authorization': `Bearer ${token}` }
+        });
+        if(pResponse.ok) {
+            const prescriptions = await pResponse.json();
+            const pendingCount = prescriptions.filter(p => p.status === 'pending').length;
+            const pendingCountEl = document.getElementById('pending-prescriptions-count');
+            if (pendingCountEl) {
+                pendingCountEl.textContent = pendingCount;
+            }
+        }
+        
     } catch(err) {
         const container = document.getElementById('dynamic-items-container');
         if (container) container.innerHTML = '<div class="text-center p-8 text-error font-bold rounded-2xl bg-error-container">⚠️ System unreachable. Please ensure database and server are live.</div>';
@@ -303,6 +314,11 @@ async function updateGardeMode(active) {
             body: JSON.stringify({ gardeMode: active })
         });
     } catch (err) { console.error(err); }
+}
+
+function logout() {
+    localStorage.clear();
+    window.location.href = '/vitalis_auth_portal/code.html';
 }
 </script>
 </body>

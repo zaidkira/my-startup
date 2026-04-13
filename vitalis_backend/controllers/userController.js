@@ -54,3 +54,25 @@ exports.setGardeMode = async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 };
+
+exports.updateUser = async (req, res) => {
+    try {
+        const { height, weight, bloodType, allergies } = req.body;
+        const updateData = {};
+        if (height !== undefined) updateData.height = height;
+        if (weight !== undefined) updateData.weight = weight;
+        if (bloodType !== undefined) updateData.bloodType = bloodType;
+        if (allergies !== undefined) updateData.allergies = allergies;
+
+        const user = await User.findByIdAndUpdate(
+            req.params.id,
+            { $set: updateData },
+            { new: true }
+        ).select('-password');
+
+        if (!user) return res.status(404).json({ message: 'User not found.' });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(400).json({ message: error.message });
+    }
+};
