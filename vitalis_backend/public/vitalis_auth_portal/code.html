@@ -301,7 +301,67 @@
 
             } catch (error) {
                 console.error(error);
-                errorMessage.textContent = getErrorMessage(error.code) || "Authentication failed. Check your connection or credentials.";
+
+                // Special case: email already exists in Firebase but not in MongoDB
+                // (partial previous signup). Try to sign in + sync instead.
+                if (error.code === 'auth/email-already-in-use' && currentMode === 'signup') {
+                    try {
+                        const email2 = document.getElementById('email').value;
+                        const pass2 = document.getElementById('password').value;
+                        const retryCredential = await auth.signInWithEmailAndPassword(email2, pass2);
+                        const fbToken2 = await retryCredential.user.getIdToken();
+
+                        // Rebuild bodyData for sync
+                        const retryBody = {};
+                        const roleVal2 = document.querySelector('input[name="role"]:checked').value;
+                        retryBody.name = document.getElementById('name').value;
+                        retryBody.role = roleVal2;
+                        if (roleVal2 === 'patient') {
+                            retryBody.bloodType = document.getElementById('blood-type').value;
+                            retryBody.height = document.getElementById('height').value;
+                            retryBody.weight = document.getElementById('weight').value;
+                            const allergiesRaw2 = document.getElementById('allergies').value;
+                            retryBody.allergies = allergiesRaw2 ? allergiesRaw2.split(',').map(s => s.trim()) : [];
+                            const picInput2 = document.getElementById('profile-pic');
+                            if (picInput2.files && picInput2.files.length > 0) {
+                                try { retryBody.profilePic = await getBase64(picInput2.files[0]); } catch(e) {}
+                            }
+                        }
+
+                        const retryRes = await fetch(`${API_URL}/api/users/sync`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${fbToken2}` },
+                            body: JSON.stringify(retryBody)
+                        });
+                        if (!retryRes.ok) {
+                            const errData = await retryRes.json().catch(() => ({}));
+                            throw new Error(errData.message || 'Sync retry failed');
+                        }
+                        const userData2 = await retryRes.json();
+                        localStorage.setItem('vitalis_token', fbToken2);
+                        localStorage.setItem('vitalis_role', userData2.role);
+                        localStorage.setItem('vitalis_id', userData2.id);
+                        localStorage.setItem('vitalis_name', userData2.name);
+
+                        if (userData2.role === 'pharmacist') {
+                            window.location.href = '/pharmacist_stock_management/code.html';
+                        } else if (userData2.role === 'doctor') {
+                            window.location.href = '/doctor_s_insight_portal/code.html';
+                        } else {
+                            window.location.href = '/patient_wellness_dashboard/code.html';
+                        }
+                        return;
+                    } catch(retryErr) {
+                        errorMessage.textContent = retryErr.message || 'This email is already registered. Try logging in instead.';
+                        errorAlert.classList.remove('hidden');
+                        btnText.classList.remove('hidden');
+                        btnIcon.classList.remove('hidden');
+                        spinner.style.display = 'none';
+                        return;
+                    }
+                }
+
+                errorMessage.textContent = getErrorMessage(error.code) || error.message || "Authentication failed. Check your connection or credentials.";
                 errorAlert.classList.remove('hidden');
                 
                 // Reset UI
