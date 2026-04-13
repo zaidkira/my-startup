@@ -4,9 +4,13 @@ const admin = require('firebase-admin');
 // or provide passing it properly in production.
 let serviceAccount;
 try {
-    serviceAccount = require('./serviceAccountKey.json');
+    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+        serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT);
+    } else {
+        serviceAccount = require('./serviceAccountKey.json');
+    }
 } catch(err) {
-    console.warn("⚠️ Firebase serviceAccountKey.json not found! Firebase Auth won't work locally.");
+    console.warn("⚠️ Firebase serviceAccountKey.json not found or FIREBASE_SERVICE_ACCOUNT env var missing! Firebase Auth won't work.");
 }
 
 if (serviceAccount && !admin.apps.length) {

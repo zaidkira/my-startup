@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vitalis - تسجيل الدخول</title>
+    <title>Vitalis - Login</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
@@ -32,8 +32,8 @@
             <div class="w-16 h-16 bg-white rounded-2xl shadow-sm mx-auto mb-6 flex items-center justify-center text-[#0058c3]">
                 <span class="material-symbols-outlined text-4xl">ecg_heart</span>
             </div>
-            <h1 class="text-4xl font-black tracking-tight text-[#0058c3] mb-2">فيطاليس</h1>
-            <p class="text-slate-500 font-medium tracking-wide text-sm">بوابتك الذكية للرعاية الصحية</p>
+            <h1 class="text-4xl font-black tracking-tight text-[#0058c3] mb-2">Vitalis</h1>
+            <p class="text-slate-500 font-medium tracking-wide text-sm">Your Smart Healthcare Portal</p>
         </div>
 
         <!-- Auth Panel -->
@@ -41,27 +41,27 @@
             
             <div id="error-alert" class="hidden mb-6 p-4 bg-red-50 text-red-600 rounded-2xl text-sm font-bold flex items-center gap-2">
                 <span class="material-symbols-outlined">error</span>
-                <span id="error-message">حدث خطأ ما</span>
+                <span id="error-message">Something went wrong</span>
             </div>
 
             <!-- Tabs -->
             <div class="flex bg-[#f2f3fe] rounded-2xl p-1 mb-8 relative">
-                <button id="tab-login" class="flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all" onclick="switchTab('login')">دخول</button>
-                <button id="tab-signup" class="flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all" onclick="switchTab('signup')">حساب جديد</button>
+                <button id="tab-login" class="flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all" onclick="switchTab('login')">Login</button>
+                <button id="tab-signup" class="flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all" onclick="switchTab('signup')">Sign Up</button>
             </div>
 
             <form id="auth-form" onsubmit="handleAuth(event)">
                 
                 <!-- Role Selector (Only for Signup) -->
                 <div id="role-group" class="hidden mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">نوع الحساب</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Account Type</label>
                     <div class="grid grid-cols-3 gap-2">
                         <!-- Patient -->
                         <label class="cursor-pointer">
                             <input type="radio" name="role" value="patient" class="peer sr-only" checked>
                             <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
                                 <span class="material-symbols-outlined block mb-1">person</span>
-                                <span class="text-xs font-bold">مريض</span>
+                                <span class="text-xs font-bold">Patient</span>
                             </div>
                         </label>
                         <!-- Doctor -->
@@ -69,7 +69,7 @@
                             <input type="radio" name="role" value="doctor" class="peer sr-only">
                             <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
                                 <span class="material-symbols-outlined block mb-1">stethoscope</span>
-                                <span class="text-xs font-bold">طبيب</span>
+                                <span class="text-xs font-bold">Doctor</span>
                             </div>
                         </label>
                         <!-- Pharmacist -->
@@ -77,36 +77,36 @@
                             <input type="radio" name="role" value="pharmacist" class="peer sr-only">
                             <div class="text-center p-3 rounded-xl border-2 border-transparent bg-[#f2f3fe] peer-checked:bg-[#0058c3]/10 peer-checked:border-[#0058c3] peer-checked:text-[#0058c3] text-slate-400 transition-all">
                                 <span class="material-symbols-outlined block mb-1">medication</span>
-                                <span class="text-xs font-bold">صيدلي</span>
+                                <span class="text-xs font-bold">Pharmacist</span>
                             </div>
                         </label>
                     </div>
                 </div>
 
                 <div id="name-group" class="hidden mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">الاسم الكامل</label>
-                    <input type="text" id="name" class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="د. سميث ...">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Full Name</label>
+                    <input type="text" id="name" class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="John Doe">
                 </div>
 
                 <div class="mb-5">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">البريد الإلكتروني</label>
-                    <input type="email" id="email" required class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="name@vitalis.local">
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Email Address</label>
+                    <input type="email" id="email" required class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="name@vitalis.host">
                 </div>
 
                 <div class="mb-8">
-                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">كلمة المرور</label>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-widest mb-2">Password</label>
                     <input type="password" id="password" required class="w-full bg-[#f2f3fe] px-5 py-4 rounded-2xl text-sm input-glow border border-transparent transition-all placeholder-slate-400" placeholder="••••••••">
                 </div>
 
                 <button type="submit" class="btn-primary w-full text-white font-bold py-4 rounded-2xl text-sm flex items-center justify-center gap-2">
-                    <span id="btn-text">متابعة</span>
+                    <span id="btn-text">Continue</span>
                     <span class="material-symbols-outlined" id="btn-icon">arrow_forward</span>
                     <div class="spinner" id="spinner"></div>
                 </button>
             </form>
         </div>
 
-        <p class="text-center text-xs text-slate-400 mt-8">نظام فيطاليس يعتمد على معايير حماية طبية معتمدة</p>
+        <p class="text-center text-xs text-slate-400 mt-8">Vitalis follows certified medical security standards</p>
     </main>
 
     <!-- FIREBASE SDK COMPAT (v8 style) -->
@@ -150,14 +150,14 @@
                 btnSignup.className = "flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all";
                 roleGroup.classList.add('hidden');
                 nameGroup.classList.add('hidden');
-                btnText.textContent = "دخول";
+                btnText.textContent = "Login";
                 btnIcon.textContent = "login";
             } else {
                 btnSignup.className = "flex-1 py-3 text-sm font-bold rounded-xl text-[#0058c3] bg-white shadow-sm transition-all";
                 btnLogin.className = "flex-1 py-3 text-sm font-bold rounded-xl text-slate-500 hover:text-[#0058c3] transition-all";
                 roleGroup.classList.remove('hidden');
                 nameGroup.classList.remove('hidden');
-                btnText.textContent = "إنشاء الحساب";
+                btnText.textContent = "Create Account";
                 btnIcon.textContent = "person_add";
             }
         }
@@ -205,7 +205,7 @@
                     body: JSON.stringify(bodyData)
                 });
 
-                if (!res.ok) throw new Error('فشل المزامنة مع خادم فيطاليس الداخلي');
+                if (!res.ok) throw new Error('Sync failed with clinical backend');
                 const userData = await res.json();
                 
                 // Store minimal info locally for dashboard
@@ -225,7 +225,7 @@
 
             } catch (error) {
                 console.error(error);
-                errorMessage.textContent = getArabicError(error.code) || "يوجد خطأ في كلمة المرور أو السيرفر مغلق.";
+                errorMessage.textContent = getErrorMessage(error.code) || "Authentication failed. Check your connection or credentials.";
                 errorAlert.classList.remove('hidden');
                 
                 // Reset UI
@@ -235,13 +235,13 @@
             }
         }
 
-        // Helper to translate Firebase codes to Arabic
-        function getArabicError(code) {
+        // Helper to translate Firebase codes
+        function getErrorMessage(code) {
             switch(code) {
-                case 'auth/invalid-credential': return "البريد الإلكتروني أو كلمة المرور غير صحيحة";
-                case 'auth/email-already-in-use': return "هذا البريد مستخدم سابقاً";
-                case 'auth/weak-password': return "كلمة المرور ضعيفة (يجب أن تكون 6 أحرف على الأقل)";
-                case 'auth/network-request-failed': return "لا يوجد اتصال بالإنترنت";
+                case 'auth/invalid-credential': return "Invalid email or password";
+                case 'auth/email-already-in-use': return "This email is already registered";
+                case 'auth/weak-password': return "Password is too weak (min 6 characters)";
+                case 'auth/network-request-failed': return "Network connection failed";
                 default: return null;
             }
         }

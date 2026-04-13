@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-
-<html dir="rtl" lang="ar"><head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Your Health First - Stock Management</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Vitalis | Pharmacist Stock Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -72,208 +71,208 @@
             },
         }
     </script>
-<style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        body { font-family: 'Inter', sans-serif; }
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Inter', sans-serif; background-color: #faf9ff; min-height: max(884px, 100dvh); }
         .glass-effect { backdrop-filter: blur(20px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
     </style>
-<style>
-    body {
-      min-height: max(884px, 100dvh);
-    }
-  </style>
-  </head>
-<body class="bg-surface text-on-surface min-h-screen">
+</head>
+<body class="bg-surface text-on-surface">
 <script>
     if (!localStorage.getItem('vitalis_token') || localStorage.getItem('vitalis_role') !== 'pharmacist') {
         window.location.href = '/vitalis_auth_portal/code.html';
     }
 </script>
+
 <!-- Top Navigation Shell -->
-<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(24,27,35,0.04),0_4px_8px_rgba(0,88,195,0.06)] flex justify-between items-center px-6 py-4 rtl:flex-row-reverse">
-<div class="flex items-center gap-4">
-<div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
-<img alt="Dr. Smith" class="w-full h-full object-cover" data-alt="professional portrait of a middle-aged pharmacist wearing a white lab coat in a modern bright clinical setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrLYq7eVWAmKwC30lpAV7LFcVChWZqBfxdfuqzx76XMzJIm61JDdHcldJbg8IebUSFuCEPHeBtIDDom_jnlqdoQIw0ebAPyq3K4ZxaZvYYRjnYszUMOHFA1VAfzS6XaynulV5p1XCi3A407RmmSOvGQ1AIWSKAAK4_hOxU8Eo88z9IoTC3UZdri6OyoWn31X-Wn9Xo_A8Xj6bC75ioSRMiUzciKNoPmfTh6QfuEodRt3u2YQZm1kC9XSLJo9Txd427BPyp9E7e_pA"/>
-</div>
-<h1 class="font-['Inter'] font-semibold text-lg tracking-tight text-blue-700 dark:text-blue-500 italic">صحتك أولاً</h1>
-</div>
-<div class="hidden md:flex gap-8 items-center">
-<nav class="flex gap-6">
-<a class="text-blue-700 dark:text-blue-400 font-bold" href="#">Dashboard</a>
-<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 transition-colors px-2 py-1 rounded-lg" href="#">Inventory</a>
-<a class="text-slate-500 dark:text-slate-400 hover:bg-slate-50 transition-colors px-2 py-1 rounded-lg" href="#">Patients</a>
-</nav>
-<button class="material-symbols-outlined text-on-surface-variant hover:bg-slate-50 p-2 rounded-full transition-all active:scale-95 duration-200">notifications</button>
-</div>
-<div class="md:hidden">
-<span class="material-symbols-outlined text-primary">menu</span>
-</div>
+<header class="fixed top-0 w-full z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl shadow-[0_10px_30px_rgba(24,27,35,0.04),0_4px_8px_rgba(0,88,195,0.06)] flex justify-between items-center px-6 py-4">
+    <div class="flex items-center gap-4">
+        <div class="w-10 h-10 rounded-full bg-primary-fixed flex items-center justify-center overflow-hidden">
+            <img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrLYq7eVWAmKwC30lpAV7LFcVChWZqBfxdfuqzx76XMzJIm61JDdHcldJbg8IebUSFuCEPHeBtIDDom_jnlqdoQIw0ebAPyq3K4ZxaZvYYRjnYszUMOHFA1VAfzS6XaynulV5p1XCi3A407RmmSOvGQ1AIWSKAAK4_hOxU8Eo88z9IoTC3UZdri6OyoWn31X-Wn9Xo_A8Xj6bC75ioSRMiUzciKNoPmfTh6QfuEodRt3u2YQZm1kC9XSLJo9Txd427BPyp9E7e_pA"/>
+        </div>
+        <h1 class="font-bold text-lg tracking-tight text-blue-700 italic">Vitalis</h1>
+    </div>
+    <div class="hidden md:flex gap-8 items-center">
+        <nav class="flex gap-6 font-semibold text-sm">
+            <a class="text-blue-700" href="#">Dashboard</a>
+            <a class="text-slate-500 hover:text-blue-600 transition-colors" href="#">Inventory</a>
+            <a class="text-slate-500 hover:text-blue-600 transition-colors" href="#">Patients</a>
+        </nav>
+        <button class="material-symbols-outlined text-slate-500 hover:bg-slate-50 p-2 rounded-full">notifications</button>
+    </div>
+    <div class="md:hidden">
+        <span class="material-symbols-outlined text-primary">menu</span>
+    </div>
 </header>
+
 <main class="pt-24 pb-32 px-4 md:px-8 max-w-7xl mx-auto flex flex-col md:flex-row gap-8">
-<!-- Sidebar Drawer (Web) -->
-<aside class="hidden lg:flex flex-col h-[calc(100vh-8rem)] w-72 sticky top-24 py-4 space-y-2 px-4 bg-slate-50 dark:bg-slate-900 rounded-3xl">
-<div class="mb-8 px-2">
-<h2 class="text-2xl font-black text-blue-700 dark:text-blue-500" id="pharmacist-name">Inventory</h2>
-<p class="text-sm text-slate-500" id="pharmacist-role">Pharmacist • Active Now</p>
-</div>
-<nav class="flex flex-col gap-2">
-<div class="flex items-center gap-3 bg-blue-600 text-white rounded-xl shadow-lg shadow-blue-200 p-4 font-bold cursor-pointer transition-transform hover:translate-x-1 rtl:hover:-translate-x-1">
-<span class="material-symbols-outlined">dashboard</span>
-<span>Dashboard</span>
-</div>
-<div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 rounded-xl p-4 cursor-pointer transition-transform hover:translate-x-1 rtl:hover:-translate-x-1">
-<span class="material-symbols-outlined">inventory_2</span>
-<span>Inventory</span>
-</div>
-<div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 rounded-xl p-4 cursor-pointer transition-transform hover:translate-x-1 rtl:hover:-translate-x-1">
-<span class="material-symbols-outlined">group</span>
-<span>Patients</span>
-</div>
-<div class="flex items-center gap-3 text-slate-600 dark:text-slate-400 hover:bg-slate-200 rounded-xl p-4 cursor-pointer transition-transform hover:translate-x-1 rtl:hover:-translate-x-1">
-<span class="material-symbols-outlined">settings</span>
-<span>Settings</span>
-</div>
+    <!-- Sidebar Drawer -->
+    <aside class="hidden lg:flex flex-col h-[calc(100vh-8rem)] w-72 sticky top-24 py-4 space-y-4 px-4 bg-slate-50 rounded-3xl">
+        <div class="mb-4 px-2">
+            <h2 class="text-2xl font-black text-blue-700" id="pharmacist-name">Pharmacy</h2>
+            <p class="text-sm text-slate-500">Pharmacist • Active</p>
+        </div>
+        <nav class="flex flex-col gap-2">
+            <div class="flex items-center gap-3 bg-blue-600 text-white rounded-xl shadow-lg p-4 font-bold cursor-pointer">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Portal View</span>
+            </div>
+            <div class="flex items-center gap-3 text-slate-600 hover:bg-slate-200 rounded-xl p-4 cursor-pointer">
+                <span class="material-symbols-outlined">inventory_2</span>
+                <span>Stock Flow</span>
+            </div>
+            <div class="flex items-center gap-3 text-slate-600 hover:bg-slate-200 rounded-xl p-4 cursor-pointer">
+                <span class="material-symbols-outlined">group</span>
+                <span>User Logs</span>
+            </div>
+        </nav>
+        <div class="mt-auto p-4 bg-white/50 rounded-2xl">
+            <span class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Connectivity</span>
+            <div class="flex items-center gap-2 mt-2">
+                <div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
+                <span class="text-xs font-bold text-secondary uppercase">Online</span>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <div class="flex-1 space-y-8">
+        <!-- Hero Section -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div class="md:col-span-2 relative overflow-hidden bg-primary p-8 rounded-[2rem] text-white shadow-xl">
+                <div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
+                <div class="relative z-10 flex flex-col h-full justify-between">
+                    <div>
+                        <span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold tracking-widest uppercase mb-4">Availability status</span>
+                        <h2 class="text-4xl font-extrabold tracking-tight mb-2">On-Call Duty</h2>
+                        <p class="text-blue-100 max-w-md">Activate duty mode to signify the pharmacy is open for emergency night shifts.</p>
+                    </div>
+                    <div class="mt-8 flex items-center justify-between bg-white/10 p-4 rounded-2xl backdrop-blur-md">
+                        <div class="flex items-center gap-3">
+                            <span class="material-symbols-outlined text-secondary-fixed text-3xl">emergency</span>
+                            <div>
+                                <p class="text-sm font-bold">Duty Mode</p>
+                                <p class="text-xs opacity-70">Expires in 05h 21m</p>
+                            </div>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input checked="" class="sr-only peer" type="checkbox" onchange="updateGardeMode(this.checked)"/>
+                            <div class="w-14 h-8 bg-white/30 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Metric Card -->
+            <div class="bg-surface-container-low p-8 rounded-[2rem] flex flex-col justify-between border border-slate-100">
+                <span class="material-symbols-outlined text-tertiary text-4xl">monitoring</span>
+                <div>
+                    <p class="text-4xl font-black text-on-surface mt-4 tracking-tighter">124</p>
+                    <p class="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Awaiting Verification</p>
+                </div>
+                <div class="mt-4 h-1.5 bg-slate-200 rounded-full overflow-hidden">
+                    <div class="w-2/3 h-full bg-tertiary"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory List -->
+        <section class="bg-white rounded-[2.5rem] p-8 shadow-sm">
+            <div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
+                <div>
+                    <h3 class="text-2xl font-bold text-on-surface">Digital Inventory</h3>
+                    <p class="text-slate-500 text-sm">Real-time tracking of medical stock levels.</p>
+                </div>
+                <div class="flex items-center gap-3 bg-slate-50 p-2 rounded-2xl">
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-sm">search</span>
+                        <input class="bg-transparent border-none focus:ring-0 text-sm pl-10 pr-4 py-2 w-48 md:w-64" placeholder="Search sku..." type="text"/>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 gap-4" id="inventory-list">
+                <div class="hidden md:grid grid-cols-12 px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
+                    <div class="col-span-5">Product Details</div>
+                    <div class="col-span-3">Category</div>
+                    <div class="col-span-2 text-center">Batch ID</div>
+                    <div class="col-span-2 text-right">Status</div>
+                </div>
+                <div id="dynamic-items-container">
+                    <div class="text-center p-8 text-slate-500 animate-pulse text-sm font-bold uppercase tracking-widest">Syncing with server...</div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/80 backdrop-blur-xl flex justify-around items-center pb-6 pt-3 px-4 shadow-lg z-50 rounded-t-3xl border-t border-slate-100">
+    <a class="flex flex-col items-center text-blue-700" href="#">
+        <span class="material-symbols-outlined">grid_view</span>
+        <span class="text-[10px] uppercase mt-1">Home</span>
+    </a>
+    <a class="flex flex-col items-center text-slate-400" href="#">
+        <span class="material-symbols-outlined">inventory_2</span>
+        <span class="text-[10px] uppercase mt-1">Stock</span>
+    </a>
+    <a class="flex flex-col items-center text-slate-400" href="#">
+        <span class="material-symbols-outlined">person</span>
+        <span class="text-[10px] uppercase mt-1">Account</span>
+    </a>
 </nav>
-<div class="mt-auto p-4 bg-white/50 rounded-2xl">
-<span class="text-xs font-bold uppercase tracking-wider text-slate-400">System Status</span>
-<div class="flex items-center gap-2 mt-2">
-<div class="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
-<span class="text-sm font-medium text-secondary">Active Now</span>
-</div>
-</div>
-</aside>
-<!-- Main Content Area -->
-<div class="flex-1 space-y-8">
-<!-- Bento Hero Section -->
-<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-<!-- Garde Mode Toggle Panel -->
-<div class="md:col-span-2 relative overflow-hidden bg-primary p-8 rounded-[2rem] text-white shadow-xl group">
-<div class="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-20 -mt-20 blur-3xl"></div>
-<div class="relative z-10 flex flex-col h-full justify-between">
-<div>
-<span class="inline-block px-3 py-1 bg-white/20 rounded-full text-xs font-bold tracking-widest uppercase mb-4">Emergency Status</span>
-<h2 class="text-4xl font-extrabold tracking-tight mb-2">Garde Mode</h2>
-<p class="text-primary-fixed/80 max-w-md">Activate this mode to indicate the pharmacy is open for emergency night shifts.</p>
-</div>
-<div class="mt-8 flex items-center justify-between bg-white/10 p-4 rounded-2xl backdrop-blur-md">
-<div class="flex items-center gap-3">
-<span class="material-symbols-outlined text-secondary-fixed text-3xl" style="font-variation-settings: 'FILL' 1;">emergency</span>
-<div>
-<p class="text-sm font-bold">Currently Active</p>
-<p class="text-xs opacity-70">Shift ends in 06:42:10</p>
-</div>
-</div>
-<!-- Styled Toggle -->
-<label class="relative inline-flex items-center cursor-pointer">
-<input checked="" class="sr-only peer" type="checkbox" onchange="updateGardeMode(this.checked)"/>
-<div class="w-14 h-8 bg-white/30 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:start-[4px] after:bg-white after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-secondary"></div>
-</label>
-</div>
-</div>
-</div>
-<!-- Small Metric Card -->
-<div class="bg-surface-container-low p-8 rounded-[2rem] flex flex-col justify-between border-outline-variant/15 border border-opacity-10">
-<span class="material-symbols-outlined text-tertiary text-4xl">monitoring</span>
-<div>
-<p class="text-display-lg text-4xl font-black text-on-surface tracking-tighter mt-4">124</p>
-<p class="text-label-md text-slate-500 font-medium uppercase tracking-widest text-[10px]">Pending Orders</p>
-</div>
-<div class="mt-4 h-1 bg-surface-container-highest rounded-full overflow-hidden">
-<div class="w-2/3 h-full bg-tertiary"></div>
-</div>
-</div>
-</div>
-<!-- Inventory Management Section -->
-<section class="bg-surface-container-lowest rounded-[2.5rem] p-8 shadow-[0_10px_30px_rgba(24,27,35,0.02)]">
-<div class="flex flex-col md:flex-row md:items-center justify-between mb-8 gap-4">
-<div>
-<h3 class="text-2xl font-bold text-on-surface">Stock Inventory</h3>
-<p class="text-on-surface-variant text-sm mt-1">Manage and track medical supplies in real-time.</p>
-</div>
-<div class="flex items-center gap-3 bg-surface-container-low p-2 rounded-2xl">
-<div class="relative">
-<span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-sm">search</span>
-<input class="bg-transparent border-none focus:ring-0 text-sm pl-10 pr-4 py-2 w-48 md:w-64 rtl:pl-4 rtl:pr-10" placeholder="Search medicines..." type="text"/>
-</div>
-<button class="bg-white p-2 rounded-xl shadow-sm text-slate-600 hover:text-primary transition-colors">
-<span class="material-symbols-outlined">tune</span>
+
+<button class="fixed bottom-24 right-6 md:bottom-12 md:right-12 w-16 h-16 bg-primary text-white rounded-2xl shadow-xl flex items-center justify-center hover:scale-105 transition-all z-40">
+    <span class="material-symbols-outlined text-3xl">add</span>
 </button>
-</div>
-</div>
-<!-- Inventory List (Editorial Style) -->
-<div class="grid grid-cols-1 gap-4" id="inventory-list">
-<!-- List Header -->
-<div class="hidden md:grid grid-cols-12 px-6 py-2 text-[10px] font-black uppercase tracking-widest text-slate-400">
-<div class="col-span-5">Medicine Name / Molecule</div>
-<div class="col-span-3">Category</div>
-<div class="col-span-2 text-center">Batch ID</div>
-<div class="col-span-2 text-right">Availability</div>
-</div>
-<!-- Dynamic Container for items -->
-<div id="dynamic-items-container">
-    <div class="text-center p-8 text-slate-500 animate-pulse">Loading API Data...</div>
-</div>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', async () => {
-    const pharmaName = localStorage.getItem('vitalis_name') || 'صيدلي';
-    document.getElementById('pharmacist-name').textContent = pharmaName;
+    const pharmaName = localStorage.getItem('vitalis_name') || 'Pharmacist';
+    const nameEl = document.getElementById('pharmacist-name');
+    if (nameEl) nameEl.textContent = pharmaName;
     
     try {
         const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
-        
         const token = localStorage.getItem('vitalis_token');
         const response = await fetch(`${API_URL}/api/inventory`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
+            headers: { 'Authorization': `Bearer ${token}` }
         });
-        if(!response.ok) throw new Error('API down or Unauthorized');
+        if(!response.ok) throw new Error('Unauthorized');
         const items = await response.json();
         
         const container = document.getElementById('dynamic-items-container');
-        container.innerHTML = ''; // Clear loading
-
-        items.forEach(item => {
-            const inStockColor = item.inStock ? 'text-secondary' : 'text-error';
-            const inStockText = item.inStock ? 'IN STOCK' : 'OUT OF STOCK';
-            const checkState = item.inStock ? 'checked=""' : '';
-            const bgIcon = item.inStock ? 'bg-primary-fixed text-primary' : 'bg-error-container text-error';
-
-            const html = `
-            <div class="grid grid-cols-1 md:grid-cols-12 items-center px-6 py-5 bg-surface-container-low hover:bg-surface-container rounded-2xl transition-all duration-300 group mb-4">
-            <div class="col-span-5 flex items-center gap-4">
-            <div class="w-12 h-12 ${bgIcon} rounded-xl flex items-center justify-center">
-            <span class="material-symbols-outlined">medication</span>
-            </div>
-            <div>
-            <p class="font-bold text-on-surface group-hover:text-primary transition-colors">${item.name}</p>
-            <p class="text-xs text-slate-500">${item.molecule} • ${item.category}</p>
-            </div>
-            </div>
-            <div class="col-span-3 hidden md:block">
-            <span class="px-3 py-1 bg-white text-on-surface-variant rounded-full text-xs font-medium">${item.category}</span>
-            </div>
-            <div class="col-span-2 hidden md:block text-center text-sm font-mono text-slate-500">
-                                        #${item.batchId}
-                                    </div>
-            <div class="col-span-2 flex justify-end items-center gap-3">
-            <span class="text-xs font-bold ${inStockColor}">${inStockText}</span>
-            <label class="relative inline-flex items-center cursor-pointer">
-            <input ${checkState} class="sr-only peer" type="checkbox" onchange="toggleStock('${item._id}', this.checked)"/>
-            <div class="w-10 h-5 bg-slate-300 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
-            </label>
-            </div>
-            </div>`;
-            container.innerHTML += html;
-        });
+        if (container) {
+            container.innerHTML = '';
+            items.forEach(item => {
+                const statusColor = item.inStock ? 'text-secondary' : 'text-error';
+                const statusLabel = item.inStock ? 'INSTOCK' : 'UNAVAILABLE';
+                container.innerHTML += `
+                    <div class="grid grid-cols-1 md:grid-cols-12 items-center px-6 py-5 bg-slate-50 hover:bg-slate-100 rounded-2xl transition-all mb-4">
+                        <div class="col-span-5 flex items-center gap-4">
+                            <div class="w-12 h-12 ${item.inStock ? 'bg-blue-100 text-blue-600' : 'bg-red-100 text-red-600'} rounded-xl flex items-center justify-center">
+                                <span class="material-symbols-outlined">medication</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-on-surface">${item.name}</p>
+                                <p class="text-xs text-slate-500">${item.molecule}</p>
+                            </div>
+                        </div>
+                        <div class="col-span-3 hidden md:block text-sm text-slate-600">${item.category}</div>
+                        <div class="col-span-2 hidden md:block text-center text-xs font-mono text-slate-400">#${item.batchId}</div>
+                        <div class="col-span-2 flex justify-end items-center gap-4">
+                            <span class="text-[10px] font-black ${statusColor}">${statusLabel}</span>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input ${item.inStock ? 'checked' : ''} class="sr-only peer" type="checkbox" onchange="toggleStock('${item._id}', this.checked)"/>
+                                <div class="w-10 h-5 bg-slate-300 rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-4 after:w-4 after:transition-all peer-checked:bg-secondary"></div>
+                            </label>
+                        </div>
+                    </div>`;
+            });
+        }
     } catch(err) {
-        document.getElementById('dynamic-items-container').innerHTML = 
-            '<div class="text-center p-8 text-error font-bold rounded-2xl bg-error-container">⚠️ يرجى تشغيل MongoDB والسيرفر (Backend) أولاً لعرض الأدوية!</div>';
-        console.error('Failed to load inventory:', err);
+        const container = document.getElementById('dynamic-items-container');
+        if (container) container.innerHTML = '<div class="text-center p-8 text-error font-bold rounded-2xl bg-error-container">⚠️ System unreachable. Please ensure database and server are live.</div>';
     }
 });
 
@@ -293,7 +292,7 @@ async function toggleStock(id, inStock) {
 
 async function updateGardeMode(active) {
     try {
-        const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : 'https://vitalisbackend-452u547f2-ammizaidghost-3245s-projects.vercel.app';
+        const API_URL = window.location.hostname === 'localhost' ? 'http://localhost:5000' : '';
         const userId = localStorage.getItem('vitalis_id');
         await fetch(`${API_URL}/api/users/${userId}/garde`, {
             method: 'PUT',
@@ -306,36 +305,5 @@ async function updateGardeMode(active) {
     } catch (err) { console.error(err); }
 }
 </script>
-<div class="mt-8 flex justify-center">
-<button class="flex items-center gap-2 text-primary font-bold text-sm px-6 py-3 hover:bg-primary/5 rounded-full transition-colors">
-                        View All Inventory
-                        <span class="material-symbols-outlined text-sm">arrow_downward</span>
-</button>
-</div>
-</section>
-</div>
-</main>
-<!-- Bottom Navigation Bar (Mobile) -->
-<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl flex justify-around items-center pb-6 pt-3 px-4 shadow-[0_-10px_30px_rgba(24,27,35,0.04)] z-50 rounded-t-3xl">
-<a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl px-5 py-2 scale-110 transition-all" href="#">
-<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">grid_view</span>
-<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Home</span>
-</a>
-<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
-<span class="material-symbols-outlined">monitoring</span>
-<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Insights</span>
-</a>
-<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
-<span class="material-symbols-outlined">folder_shared</span>
-<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Vault</span>
-</a>
-<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-500 transition-all" href="#">
-<span class="material-symbols-outlined">person</span>
-<span class="font-['Inter'] text-[11px] font-medium tracking-wide uppercase mt-1">Profile</span>
-</a>
-</nav>
-<!-- FAB Action (Contextual) -->
-<button class="fixed bottom-24 right-6 md:bottom-12 md:right-12 w-16 h-16 bg-primary text-white rounded-2xl shadow-[0_10px_30px_rgba(0,88,195,0.3)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40">
-<span class="material-symbols-outlined text-3xl">add</span>
-</button>
-</body></html>
+</body>
+</html>
