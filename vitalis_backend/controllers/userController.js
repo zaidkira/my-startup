@@ -34,18 +34,20 @@ exports.syncUser = async (req, res) => {
         
         if (!user) {
             // Register new user locally referencing Firebase UID
-            user = new User({
+            const userDataToSave = {
                 firebaseUid: uid,
                 name: name || req.user.name || 'New User',
                 email: email,
                 role: role || 'patient',
                 specialty: specialty,
                 profilePic: profilePic,
-                height: height,
-                weight: weight,
                 bloodType: bloodType,
                 allergies: allergies
-            });
+            };
+            if (height) userDataToSave.height = Number(height);
+            if (weight) userDataToSave.weight = Number(weight);
+
+            user = new User(userDataToSave);
             await user.save();
         }
 
@@ -74,8 +76,8 @@ exports.updateUser = async (req, res) => {
     try {
         const { height, weight, bloodType, allergies, name, profilePic } = req.body;
         const updateData = {};
-        if (height !== undefined) updateData.height = height;
-        if (weight !== undefined) updateData.weight = weight;
+        if (height) updateData.height = Number(height);
+        if (weight) updateData.weight = Number(weight);
         if (bloodType !== undefined) updateData.bloodType = bloodType;
         if (allergies !== undefined) updateData.allergies = allergies;
         if (name !== undefined) updateData.name = name;
