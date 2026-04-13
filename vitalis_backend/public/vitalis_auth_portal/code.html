@@ -278,7 +278,10 @@
                     body: JSON.stringify(bodyData)
                 });
 
-                if (!res.ok) throw new Error('Sync failed with clinical backend');
+                if (!res.ok) {
+                    const errData = await res.json().catch(() => ({}));
+                    throw new Error(errData.message || 'Sync failed with clinical backend');
+                }
                 const userData = await res.json();
                 
                 // Store minimal info locally for dashboard
