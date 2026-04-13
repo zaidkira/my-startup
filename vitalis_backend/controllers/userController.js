@@ -12,12 +12,22 @@ exports.getUsers = async (req, res) => {
     }
 };
 
+exports.getUserById = async (req, res) => {
+    try {
+        const user = await User.findById(req.params.id).select('-password');
+        if (!user) return res.status(404).json({ message: 'User not found' });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
 // Sync User from Firebase into MongoDB
 exports.syncUser = async (req, res) => {
     try {
         // req.user is provided by the auth middleware (decoded Firebase token)
         const { uid, email } = req.user;
-        const { name, role, specialty } = req.body;
+        const { name, role, specialty, profilePic, height, weight, bloodType, allergies } = req.body;
         
         // Check if user already exists
         let user = await User.findOne({ firebaseUid: uid });
@@ -29,7 +39,12 @@ exports.syncUser = async (req, res) => {
                 name: name || req.user.name || 'New User',
                 email: email,
                 role: role || 'patient',
-                specialty: specialty
+                specialty: specialty,
+                profilePic: profilePic,
+                height: height,
+                weight: weight,
+                bloodType: bloodType,
+                allergies: allergies
             });
             await user.save();
         }
@@ -57,12 +72,14 @@ exports.setGardeMode = async (req, res) => {
 
 exports.updateUser = async (req, res) => {
     try {
-        const { height, weight, bloodType, allergies } = req.body;
+        const { height, weight, bloodType, allergies, name, profilePic } = req.body;
         const updateData = {};
         if (height !== undefined) updateData.height = height;
         if (weight !== undefined) updateData.weight = weight;
         if (bloodType !== undefined) updateData.bloodType = bloodType;
         if (allergies !== undefined) updateData.allergies = allergies;
+        if (name !== undefined) updateData.name = name;
+        if (profilePic !== undefined) updateData.profilePic = profilePic;
 
         const user = await User.findByIdAndUpdate(
             req.params.id,

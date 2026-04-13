@@ -9,9 +9,9 @@ const userSchema = new mongoose.Schema({
         enum: ['patient', 'doctor', 'pharmacist'], 
         required: true 
     },
-    // Doctor Specific
-    specialty: { type: String },
+    // Specific profile information
     // Patient Specific
+    profilePic: { type: String }, // Base64 string or URL
     medicalHistory: [{ type: String }],
     bloodType: { type: String },
     allergies: [{ type: String }],

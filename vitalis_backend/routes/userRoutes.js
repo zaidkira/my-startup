@@ -4,6 +4,7 @@ const userController = require('../controllers/userController');
 const authMiddleware = require('../middlewares/auth');
 
 router.get('/', userController.getUsers);
+router.get('/:id', userController.getUserById);
 // Call this after signing up on Firebase Client SDK
 router.post('/sync', authMiddleware, userController.syncUser);
 router.put('/:id/garde', authMiddleware, userController.setGardeMode);
